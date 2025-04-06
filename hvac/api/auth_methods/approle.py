@@ -169,7 +169,6 @@ class AppRole(VaultApiBase):
         :rtype: dict
         """
         params = {"namespace": namespace}
-
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}",
             mount_point=mount_point,
@@ -192,7 +191,6 @@ class AppRole(VaultApiBase):
         :type namespace: str | unicode
         """
         params = {"namespace": namespace}
-
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}",
             mount_point=mount_point,
@@ -429,7 +427,6 @@ class AppRole(VaultApiBase):
         :param namespace: The namespace to use with enterprise vault
         :type namespace: str | unicode
         """
-
         params = {"secret_id": secret_id, "namespace": namespace}
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}/secret-id/destroy",
@@ -455,7 +452,6 @@ class AppRole(VaultApiBase):
         :rtype: dict
         """
         params = {"namespace": namespace}
-
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}/secret-id",
             mount_point=mount_point,
