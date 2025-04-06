@@ -30,6 +30,7 @@ class AppRole(VaultApiBase):
         token_period=None,
         token_type=None,
         mount_point=DEFAULT_MOUNT_POINT,
+        namespace=None,
     ):
         """
         Create/update approle.
@@ -77,6 +78,8 @@ class AppRole(VaultApiBase):
         :type token_type: str | unicode
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         """
         list_of_strings_params = {
             "secret_id_bound_cidrs": secret_id_bound_cidrs,
@@ -93,7 +96,7 @@ class AppRole(VaultApiBase):
                 )
             )
 
-        params = dict()
+        params = {"namespace": namespace}
 
         for param_name, param_argument in list_of_strings_params.items():
             validate_list_of_strings_param(
@@ -128,7 +131,7 @@ class AppRole(VaultApiBase):
         )
         return self._adapter.post(url=api_path, json=params)
 
-    def list_roles(self, mount_point=DEFAULT_MOUNT_POINT):
+    def list_roles(self, mount_point=DEFAULT_MOUNT_POINT, namespace=None):
         """
         List existing roles created in the auth method.
 
@@ -137,15 +140,19 @@ class AppRole(VaultApiBase):
 
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         :return: The JSON response of the list_roles request.
         :rtype: dict
         """
+        params = {"namespace": namespace}
+
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role", mount_point=mount_point
         )
-        return self._adapter.list(url=api_path)
+        return self._adapter.list(url=api_path, json=params)
 
-    def read_role(self, role_name, mount_point=DEFAULT_MOUNT_POINT):
+    def read_role(self, role_name, mount_point=DEFAULT_MOUNT_POINT, namespace=None):
         """
         Read role in the auth method.
 
@@ -156,17 +163,21 @@ class AppRole(VaultApiBase):
         :type role_name: str | unicode
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         :return: The JSON response of the read_role request.
         :rtype: dict
         """
+        params = {"namespace": namespace}
+
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}",
             mount_point=mount_point,
             role_name=role_name,
         )
-        return self._adapter.get(url=api_path)
+        return self._adapter.get(url=api_path, json=params)
 
-    def delete_role(self, role_name, mount_point=DEFAULT_MOUNT_POINT):
+    def delete_role(self, role_name, mount_point=DEFAULT_MOUNT_POINT, namespace=None):
         """
         Delete role in the auth method.
 
@@ -177,15 +188,19 @@ class AppRole(VaultApiBase):
         :type role_name: str | unicode
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         """
+        params = {"namespace": namespace}
+
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}",
             mount_point=mount_point,
             role_name=role_name,
         )
-        return self._adapter.delete(url=api_path)
+        return self._adapter.get(url=api_path, json=params)
 
-    def read_role_id(self, role_name, mount_point=DEFAULT_MOUNT_POINT):
+    def read_role_id(self, role_name, mount_point=DEFAULT_MOUNT_POINT, namespace=None):
         """
         Reads the Role ID of a role in the auth method.
 
@@ -196,17 +211,20 @@ class AppRole(VaultApiBase):
         :type role_name: str | unicode
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         :return: The JSON response of the read_role_id request.
         :rtype: dict
         """
+        params = {"namespace": namespace}
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}/role-id",
             mount_point=mount_point,
             role_name=role_name,
         )
-        return self._adapter.get(url=api_path)
+        return self._adapter.get(url=api_path, json=params)
 
-    def update_role_id(self, role_name, role_id, mount_point=DEFAULT_MOUNT_POINT):
+    def update_role_id(self, role_name, role_id, mount_point=DEFAULT_MOUNT_POINT, namespace=None):
         """
         Updates the Role ID of a role in the auth method.
 
@@ -219,10 +237,12 @@ class AppRole(VaultApiBase):
         :type role_id: str | unicode
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         :return: The JSON response of the read_role_id request.
         :rtype: dict
         """
-        params = {"role_id": role_id}
+        params = {"role_id": role_id, "namespace": namespace}
 
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}/role-id",
@@ -238,6 +258,7 @@ class AppRole(VaultApiBase):
         cidr_list=None,
         token_bound_cidrs=None,
         mount_point=DEFAULT_MOUNT_POINT,
+        namespace=None,
         wrap_ttl=None,
     ):
         """
@@ -256,6 +277,8 @@ class AppRole(VaultApiBase):
         :type token_bound_cidrs: list
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         :param wrap_ttl: Returns the request as a response-wrapping token.
             Can be either an integer number of seconds or a string duration of seconds (`15s`), minutes (`20m`), or hours (`25h`).
         :type wrap_ttl: int | str
@@ -271,7 +294,7 @@ class AppRole(VaultApiBase):
                 )
             )
 
-        params = {}
+        params = {"namespace": namespace}
         if metadata:
             params = {"metadata": json.dumps(metadata)}
 
@@ -302,6 +325,7 @@ class AppRole(VaultApiBase):
         cidr_list=None,
         token_bound_cidrs=None,
         mount_point=DEFAULT_MOUNT_POINT,
+        namespace=None,
         wrap_ttl=None,
     ):
         """
@@ -322,6 +346,8 @@ class AppRole(VaultApiBase):
         :type token_bound_cidrs: list
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         :param wrap_ttl: Returns the request as a response-wrapping token.
             Can be either an integer number of seconds or a string duration of seconds (`15s`), minutes (`20m`), or hours (`25h`).
         :type wrap_ttl: int | str
@@ -337,7 +363,7 @@ class AppRole(VaultApiBase):
                 )
             )
 
-        params = {"secret_id": secret_id}
+        params = {"secret_id": secret_id, "namespace": namespace}
 
         if metadata:
             params["metadata"] = json.dumps(metadata)
@@ -361,7 +387,7 @@ class AppRole(VaultApiBase):
         )
         return self._adapter.post(url=api_path, json=params, wrap_ttl=wrap_ttl)
 
-    def read_secret_id(self, role_name, secret_id, mount_point=DEFAULT_MOUNT_POINT):
+    def read_secret_id(self, role_name, secret_id, mount_point=DEFAULT_MOUNT_POINT, namespace=None):
         """
         Read the properties of a Secret ID for a role in the auth method.
 
@@ -374,10 +400,12 @@ class AppRole(VaultApiBase):
         :type secret_id: str | unicode
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         :return: The JSON response of the read_role_id request.
         :rtype: dict
         """
-        params = {"secret_id": secret_id}
+        params = {"secret_id": secret_id, "namespace": namespace}
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}/secret-id/lookup",
             mount_point=mount_point,
@@ -385,7 +413,7 @@ class AppRole(VaultApiBase):
         )
         return self._adapter.post(url=api_path, json=params)
 
-    def destroy_secret_id(self, role_name, secret_id, mount_point=DEFAULT_MOUNT_POINT):
+    def destroy_secret_id(self, role_name, secret_id, mount_point=DEFAULT_MOUNT_POINT, namespace=None):
         """
         Destroys a Secret ID for a role in the auth method.
 
@@ -398,8 +426,11 @@ class AppRole(VaultApiBase):
         :type secret_id: str | unicode
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         """
-        params = {"secret_id": secret_id}
+
+        params = {"secret_id": secret_id, "namespace": namespace}
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}/secret-id/destroy",
             mount_point=mount_point,
@@ -407,7 +438,7 @@ class AppRole(VaultApiBase):
         )
         return self._adapter.post(url=api_path, json=params)
 
-    def list_secret_id_accessors(self, role_name, mount_point=DEFAULT_MOUNT_POINT):
+    def list_secret_id_accessors(self, role_name, mount_point=DEFAULT_MOUNT_POINT, namespace=None):
         """
         Lists accessors of all issued Secret IDs for a role in the auth method.
 
@@ -418,18 +449,22 @@ class AppRole(VaultApiBase):
         :type role_name: str | unicode
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         :return: The JSON response of the read_role_id request.
         :rtype: dict
         """
+        params = {"namespace": namespace}
+
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}/secret-id",
             mount_point=mount_point,
             role_name=role_name,
         )
-        return self._adapter.list(url=api_path)
+        return self._adapter.list(url=api_path, json=params)
 
     def read_secret_id_accessor(
-        self, role_name, secret_id_accessor, mount_point=DEFAULT_MOUNT_POINT
+        self, role_name, secret_id_accessor, mount_point=DEFAULT_MOUNT_POINT, namespace=None,
     ):
         """
         Read the properties of a Secret ID for a role in the auth method.
@@ -443,10 +478,12 @@ class AppRole(VaultApiBase):
         :type secret_id_accessor: str | unicode
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         :return: The JSON response of the read_role_id request.
         :rtype: dict
         """
-        params = {"secret_id_accessor": secret_id_accessor}
+        params = {"secret_id_accessor": secret_id_accessor, "namespace": namespace}
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}/secret-id-accessor/lookup",
             mount_point=mount_point,
@@ -455,7 +492,7 @@ class AppRole(VaultApiBase):
         return self._adapter.post(url=api_path, json=params)
 
     def destroy_secret_id_accessor(
-        self, role_name, secret_id_accessor, mount_point=DEFAULT_MOUNT_POINT
+        self, role_name, secret_id_accessor, mount_point=DEFAULT_MOUNT_POINT, namespace=None,
     ):
         """
         Destroys a Secret ID for a role in the auth method.
@@ -469,8 +506,10 @@ class AppRole(VaultApiBase):
         :type secret_id_accessor: str | unicode
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         """
-        params = {"secret_id_accessor": secret_id_accessor}
+        params = {"secret_id_accessor": secret_id_accessor, "namespace": namespace}
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/role/{role_name}/secret-id-accessor/destroy",
             mount_point=mount_point,
@@ -479,7 +518,7 @@ class AppRole(VaultApiBase):
         return self._adapter.post(url=api_path, json=params)
 
     def login(
-        self, role_id, secret_id=None, use_token=True, mount_point=DEFAULT_MOUNT_POINT
+        self, role_id, secret_id=None, use_token=True, mount_point=DEFAULT_MOUNT_POINT, namespace=None,
     ):
         """
         Login with APPROLE credentials.
@@ -496,10 +535,12 @@ class AppRole(VaultApiBase):
         :type use_token: bool
         :param mount_point: The "path" the method/backend was mounted on.
         :type mount_point: str | unicode
+        :param namespace: The namespace to use with enterprise vault
+        :type namespace: str | unicode
         :return: The JSON response of the login request.
         :rtype: dict
         """
-        params = {"role_id": role_id, "secret_id": secret_id}
+        params = {"role_id": role_id, "secret_id": secret_id, "namespace": namespace}
         api_path = utils.format_url(
             "/v1/auth/{mount_point}/login", mount_point=mount_point
         )
