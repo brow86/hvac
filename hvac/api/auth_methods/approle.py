@@ -198,7 +198,7 @@ class AppRole(VaultApiBase):
             mount_point=mount_point,
             role_name=role_name,
         )
-        return self._adapter.get(url=api_path, json=params)
+        return self._adapter.delete(url=api_path, json=params)
 
     def read_role_id(self, role_name, mount_point=DEFAULT_MOUNT_POINT, namespace=None):
         """
